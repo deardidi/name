@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+				list-style: none;
+			}
+			.clear{
+				clear: both;
+			}
+			#wrap{
+				width: 600px;
+				margin: 30px auto;
+			}
+			#left,#right{
+				width: 100%;
+				float: left;
+			}
+			#wrap h1{
+				background: orange;
+				padding: 20px;
+				font-size: 26px;
+				color: white;
+			}
+			#left table{
+				width: 100%;
+				text-align: center;
+				font-size: 20px
+			}
+			#left table td,#left table th{
+				background: #efefef;
+				line-height: 40px;
+			}
+			#word{
+				font-size: 20px
+			}
+			#left button{
+				font-size: 16px;
+				margin-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<h1>智能问答系统</h1>
+			<div>
+				<div id="left">
+					<table id="list">
+						<tr>
+							<th>序号</th>
+							<th>姓名</th>
+							<th>题号</th>
+						</tr>
+						<tr>
+							<td>请摇号</td>
+							<td>请摇号</td>
+							<td>请摇号</td>
+						</tr>
+					</table>
+					<div id="word">请摇号</div>
+					<button id="add">摇号</button><button id="clearthis">重摇本次</button><button id="clearall">清除</button>
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+		</div>
+		
+	</body>
+	<script src="jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var classB=["aa","bb","cc","dd","ee","ff","er","re","af","rg","nr","kuy","uk","kuu","q","w","e","g","n","t","k","c","u","th","dh","jyt","thr","htre","hg","hgf","nh","nfd","rey","nhny","nhy","mjuy","yu","uyk","kuy","smh","trej"];
+		var t;
+		var getName;
+		var chooseName=[];
+		var n=0;
+		var lisHead='<tr><th>序号</th><th>姓名</th><th>题号</th></tr>'
+		$("#add").click(function(){
+			if(classB.length==0){
+				$("#word").text("没有人了");
+				$("#add").attr("disabled","disabled");
+				
+			}else{
+				n++;
+				$("#add").attr("disabled","disabled");
+				getName=setInterval(changename,50);
+				t=20;
+			}
+		})
+		function changename(){
+			var classnum=Math.floor(Math.random()*((classB.length-1)-0+1)+0);
+			var titienum=Math.floor(Math.random()*((20-1+1)+1));
+			$("#word").text(classB[classnum]);
+			t--;
+			if(t<=0){
+				clearInterval(getName);
+				$("#add").removeAttr("disabled");
+				var choose={index:n,name:classB[classnum],title:titienum};
+				chooseName.push(choose);
+				classB.splice(classnum,1);
+				getHTML()
+			}
+		}
+		$("#clearthis").click(function(){
+			if(chooseName.length!=0){
+				classB.push(chooseName[chooseName.length-1].name);
+				chooseName.pop();
+				getHTML();
+				$("#add").removeAttr("disabled");
+				n--;
+			}
+		})
+		$("#clearall").click(function(){
+			location.reload(); 
+		})
+		
+		function getHTML(){
+			var html;
+			for(var i=0;i<chooseName.length;i++){
+				html+='<tr><td>'+chooseName[i].index+'</td><td>'+chooseName[i].name+'</td><td>'+chooseName[i].title+'</td></tr>';
+			}
+			$("#list").html(lisHead+html)
+		}
+	</script>
+
+</html>
